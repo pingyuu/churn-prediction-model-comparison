@@ -1,0 +1,33 @@
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# Environment variable files
+.env
+
+# Local data files (optional, if you don't want to upload raw data)
+data/raw/
+data/private/
+
+# Temporary files
+*.tmp
+*.log
+
+# Tableau packaged workbooks or extracts (if too large)
+*.hyper
+*.twbx
+*.tdsx
