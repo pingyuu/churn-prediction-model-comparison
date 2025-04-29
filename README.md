@@ -22,7 +22,7 @@ A statistical summary was generated for all numerical features to check data sca
 Figure 1. Correlation Heatmap for Selected Features
 
 Before model training, the dataset was split into training and testing sets, with 30% of the data reserved for testing. Stratified sampling was applied to maintain the original class distribution in both sets.  5-fold cross-validation was prepared on the training set. This setup allows each model to be trained and validated across different data splits, providing a more reliable assessment of performance before final testing.
-### 3. Model and Evaluation
+### 3. Modeling
 
 ### 3.1 Lasso Logistic Regression
 Two Lasso logistic regression models were evaluated. Figure 2 shows the relationship between the number of selected predictors and the regularization strength (log(lambda)). As regularization increased, fewer predictors were retained. Lambda1SE corresponded to a simpler model with fewer features, compared to LambdaMinDev. Figure 3 displays the cross-validated deviance across different values of log(lambda). The Lambda1SE model achieved a deviance that was close to the minimum, but with greater model parsimony. Considering the trade-off between model complexity and predictive accuracy, the Lambda1SE model was selected for final evaluation and testing.
@@ -82,18 +82,21 @@ Table 4. Evaluation Metrics of Polynomial SVM
 | F1 Score | 0.6207 |
 
 ### 3.3 Classification Tree
+A decision tree classifier was trained with different values of minimum leaf size to explore model complexity and generalization performance. Figure 7 shows the cross-validated accuracy across a range of leaf sizes. As the leaf size increased, model complexity decreased and accuracy declined accordingly. The optimal performance was achieved at a leaf size of 13, with a cross-validated accuracy of 0.9408, as shown in Table 5. 
 
-![confusion matrix for svm poly](figures/classification_min_leaf.png)
+![accuracy vs min leaf classification ](figures/classification_min_leaf.png)
 
-Figure 7. Confusion Matrix of SVM
+Figure 7. Accuracy vs. Minimum Leaf Size in Classification Tree
 
-Table 5. 
+Table 5. Optimal Leaf Size and Accuracy of Classification Tree
 | Summary           |   Value |
 |-------------------|---------|
 | Optimal leaf size | 13      |
 | Optimal accuracy  |  0.9408 |
 
-![confusion matrix for svm poly](figures/cm_classification.png)
+The final model was retrained using this optimal leaf size and evaluated on the test set. The confusion matrix is presented in Figure 8. Evaluation results are summarized in Table 6. The classification tree achieved an accuracy of 0.9349 and an F1 score of 0.7566. However, the AUC was notably lower (0.5716) compared to other models, indicating that the model may lack discrimination power despite its high overall accuracy.
+
+![confusion matrix for classification](figures/cm_classification.png)
 
 Figure 8. Confusion Matrix of Classification Tree
 
@@ -104,25 +107,36 @@ Table 6. Evaluation Metrics of Classification Tree
 | AUC      |           0.5716 |
 | F1 Score |           0.7566 |
 
-### 3.4 Model Selection
+### 3.4 Model Evaluation
+Model performance was compared across Lasso logistic regression, SVM with polynomial kernel, and classification tree models. Figure 9 presents the ROC curves for all models. The SVM model demonstrated the highest AUC, indicating superior ability to distinguish between churned and retained customers. Figure 10 summarizes the accuracy, AUC, and F1 score for each model. While the classification tree achieved the highest accuracy, it exhibited a relatively low AUC, suggesting weaker discrimination capability. Lasso logistic regression showed balanced but moderate performance across all metrics. The SVM model consistently achieved the best overall results, with strong AUC and F1 score, and was therefore selected as the final model for churn prediction on the test dataset.
 
-![confusion matrix for svm poly](figures/roc_all_models.png)
+![roc of all models](figures/roc_all_models.png)
 
-Figure 9. Confusion Matrix of Classification Tree
+Figure 9. ROC Curves of All Models
 
-![confusion matrix for svm poly](figures/evaluation_acc_auc_f1.png)
+![evaluation auc f1 acc](figures/evaluation_acc_auc_f1.png)
 
-Figure 10. Confusion Matrix of Classification Tree
+Figure 10. Model Comparison by Accuracy, AUC, and F1 Score
 
+### 4. Churn Prediction Results
+The churn prediction results on the test dataset were compared with the patterns observed in the training data to evaluate whether the model captured similar customer behaviors. Figure 11 presents the churn patterns observed in the training data, while Figure 12 displays the predicted churn distribution in the test data using the selected SVM model. 
 
-### 4. 
+A notable inversion was observed in the predicted churn patterns among international plan users. In the training dataset, customers without a voice mail plan but with international service had a higher churn rate (45.55%) compared to those with both plans (32.69%). However, in the test set predictions, churn was substantially higher among customers with both voice mail and international plans (59.28%), while churn among those without a voice mail plan dropped to 40.00%. This shift may reflect differences in the test data distribution, model behavior on unseen data, or potential limitations in how the model generalized from training patterns. Since true churn outcomes are not available for the test dataset, it is not possible to determine whether this prediction shift reflects actual customer behavior or a modeling bias.
 
+Churn increased sharply among customers with five or more customer service calls, indicating dissatisfaction remains a strong churn driver. In both datasets, churn distribution was relatively stable across area codes, with only slight variation. In terms of service usage, churned customers in the test set exhibited slightly higher night and international minutes, consistent with patterns from the training data. Overall, the SVM model successfully captured the key churn-related behaviors, and the predicted churn profiles align well with the original training insights.
 
-![confusion matrix for svm poly](figures/Churn_train.png)
+![churn analysis with train data](figures/Churn_train.png)
 
-Figure 11. Confusion Matrix of Classification Tree
+Figure 11. Churn Analysis of Training Data
 
-![confusion matrix for svm poly](figures/Churn_test_pred.png)
+![churn analysis with test data](figures/Churn_test_pred.png)
 
-Figure 12. Confusion Matrix of Classification Tree
+Figure 12. Churn Prediction Results on Test Data
+
+### 5. Conclusion
+The support vector machine (SVM) model with a polynomial kernel was selected as the final churn prediction model. It achieved the best overall balance between accuracy, AUC, and F1 score among the models tested.
+
+When comparing churn prediction patterns between the training and test datasets, the model captured most of the key churn drivers consistently. Customers with frequent customer service interactions and those without additional service plans continued to show higher churn rates in both datasets. However, for customers with international plans, churn behavior shifted in the test data, with higher churn rates than observed during training. This indicates that while the model learned generalizable patterns, certain customer groups may have changed behaviors over time. The similarity between training and test results supports that the model identified meaningful drivers of churn, providing a reasonable basis for applying the predictions in customer retention strategies.
+
+Although the model performed well overall, some limitations remain. The prediction patterns among customers with international plans showed differences between the training and test datasets. It is unclear whether these differences reflect actual behavioral shifts or model bias. Without true labels for the test data, model accuracy on this segment cannot be confirmed. Expanding the feature set, such as incorporating customer tenure, usage patterns, or payment history, may help the model better capture variations across different customer groups in future development.
 
