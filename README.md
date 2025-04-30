@@ -130,7 +130,7 @@ A notable inversion was observed in the predicted churn patterns among internati
 
 Churn increased sharply among customers with five or more customer service calls, indicating dissatisfaction remains a strong churn driver. In both datasets, churn distribution was relatively stable across area codes, with only slight variation. In terms of service usage, churned customers in the test set exhibited slightly higher night and international minutes, consistent with patterns from the training data. Overall, the SVM model successfully captured the key churn-related behaviors, and the predicted churn profiles align well with the original training insights.
 
-![churn analysis with train data](figures/Churn_train.png)
+![churn analysis with train data](figures/Churn_train_1.png)
 
 Figure 11. Churn Analysis of Training Data
 
