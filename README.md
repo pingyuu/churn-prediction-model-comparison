@@ -132,11 +132,11 @@ Churn increased sharply among customers with five or more customer service calls
 
 ![churn analysis with train data](figures/Churn_train.png)
 
-Figure 11. [Churn Analysis of Training Data](https://public.tableau.com/app/profile/ping.yu2362/viz/CustomerChurnAnalysisTrainData/Churn_train)
+Figure 11. [Churn Analysis of Train Data](https://public.tableau.com/app/profile/ping.yu2362/viz/CustomerChurnAnalysisTrainData/Churn_train)
 
 ![churn analysis with test data](figures/Test_prediction.png)
 
-Figure 12. [Churn Prediction Results on Test Data](https://public.tableau.com/app/profile/ping.yu2362/viz/CustomerChurnAnalysisTestpredictiondata/Test_prediction)
+Figure 12. [Churn Prediction Results on Test prediciton Data](https://public.tableau.com/app/profile/ping.yu2362/viz/CustomerChurnAnalysisTestpredictiondata/Test_prediction)
 
 ### 5. Conclusion
 The support vector machine (SVM) model with a polynomial kernel was selected as the final churn prediction model. It achieved the best overall balance between accuracy, AUC, and F1 score among the models tested.
