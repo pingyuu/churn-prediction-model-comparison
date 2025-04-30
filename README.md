@@ -134,7 +134,7 @@ Churn increased sharply among customers with five or more customer service calls
 
 Figure 11. Churn Analysis of Training Data
 
-![churn analysis with test data](figures/Churn_test_pred.png)
+![churn analysis with test data](figures/Test_prediction.png)
 
 Figure 12. Churn Prediction Results on Test Data
 
